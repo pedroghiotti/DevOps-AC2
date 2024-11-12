@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: papi
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+
+  api:
+    image: pedroghiotti/facens-devops
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: database
+    ports:
+      - "8484:8585"
+    depends_on:
+      - database
+
+volumes:
+  db-volume:

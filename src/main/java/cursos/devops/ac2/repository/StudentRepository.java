@@ -1,6 +1,6 @@
-package cursos.devops.ac2.domain.repository;
+package cursos.devops.ac2.repository;
 
-import cursos.devops.ac2.domain.entity.Student;
+import cursos.devops.ac2.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

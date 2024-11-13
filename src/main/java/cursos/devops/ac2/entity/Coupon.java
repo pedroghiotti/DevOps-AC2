@@ -1,6 +1,5 @@
-package cursos.devops.ac2.domain.entity;
+package cursos.devops.ac2.entity;
 
-import cursos.devops.ac2.domain.value_object.CourseID;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
+public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Embedded CourseID courseID;
+    private Double discount;
 
-    String name;
-    String description;
-    Double baseValue;
+    @OneToOne private Course course;
 }

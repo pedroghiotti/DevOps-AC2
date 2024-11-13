@@ -1,8 +1,8 @@
-package cursos.devops.ac2.domain.entity;
+package cursos.devops.ac2.entity;
 
-import cursos.devops.ac2.domain.enums.AccountType;
-import cursos.devops.ac2.domain.value_object.Email;
-import cursos.devops.ac2.domain.value_object.Password;
+import cursos.devops.ac2.enums.AccountType;
+import cursos.devops.ac2.value_object.Email;
+import cursos.devops.ac2.value_object.Password;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

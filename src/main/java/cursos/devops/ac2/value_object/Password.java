@@ -1,4 +1,4 @@
-package cursos.devops.ac2.domain.value_object;
+package cursos.devops.ac2.value_object;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Email {
-    private String address;
+public class Password {
+    private String password;
 }

@@ -1,4 +1,4 @@
-package cursos.devops.ac2.domain.enums;
+package cursos.devops.ac2.enums;
 
 public enum AccountType {
     STANDARD, PREMIUM

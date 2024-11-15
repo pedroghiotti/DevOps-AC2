@@ -10,21 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseDTO {
-    private Long id;
-    private CourseID courseID;
+    private String cid;
     private String name;
     private String description;
     private Double baseValue;
 
     public static CourseDTO fromEntity(Course course) {
-        CourseDTO courseDTO = new CourseDTO(
-                course.getId(),
-                course.getCourseID(),
+        return new CourseDTO(
+                course.getCourseID().getCid(),
                 course.getName(),
                 course.getDescription(),
                 course.getBaseValue()
         );
-
-        return courseDTO;
     }
 }

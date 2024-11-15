@@ -6,14 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootTest
 class Ac2ApplicationTests {
-
 	@Test
-	void contextLoads() {
-	}
-
-	@GetMapping("/")
-	String index() {
-		return "Hello, world!";
-	}
-
+	void contextLoads() {}
 }

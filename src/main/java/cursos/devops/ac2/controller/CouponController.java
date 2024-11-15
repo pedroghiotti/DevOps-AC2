@@ -3,10 +3,7 @@ package cursos.devops.ac2.controller;
 import cursos.devops.ac2.dto.CouponDTO;
 import cursos.devops.ac2.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +17,11 @@ public class CouponController {
     @GetMapping
     public List<CouponDTO> getCoupons() {
         return couponService.getAllCoupons();
+    }
+
+    @PostMapping
+    public void createCoupon(@RequestBody CouponDTO couponDTO) {
+        couponService.createCoupon(couponDTO);
     }
 
 }

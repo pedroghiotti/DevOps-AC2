@@ -10,21 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO {
-    private Long id;
     private String name;
+    private int coins;
     private String email_address;
     private String password;
     private AccountType accountType;
 
     public static StudentDTO fromEntity(Student student) {
-        StudentDTO studentDTO = new StudentDTO(
-                student.getId(),
+        return new StudentDTO(
                 student.getName(),
+                student.getCoins(),
                 student.getEmail().getAddress(),
                 student.getPassword().getPassword(),
                 student.getAccountType()
         );
-
-        return studentDTO;
     }
 }

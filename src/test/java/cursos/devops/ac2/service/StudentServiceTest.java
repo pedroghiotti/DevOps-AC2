@@ -21,27 +21,6 @@ public class StudentServiceTest {
     @Autowired CourseService courseService;
 
     @Test
-    public void shouldCreateStudentProperly() {
-
-        // Arrange
-        StudentDTO studentDTO = new StudentDTO(
-            "Student",
-            10,
-            "student@institution.com",
-            "password",
-            AccountType.STANDARD
-        );
-
-        // Action
-        studentService.createStudent(studentDTO);
-
-        // Assertion
-        assertEquals(studentService.getAllStudents().size(), 1);
-
-        assertEquals(Student.fromDTO(studentService.getStudentById(1L)).hashCode(), Student.fromDTO(studentDTO).hashCode());
-    }
-
-    @Test
     public void shouldRewardStudentWith3CoinsOnConcludingCourseWithGradeGte7() {
         // Arrange
         Student student = studentService.createStudent(

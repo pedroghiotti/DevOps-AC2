@@ -31,9 +31,11 @@ pipeline {
     }
 
     stage('Aguardando Aprovação') {
-      input {
-        message 'Aprovado para produção?'
-        ok 'Sim. Iniciar pipeline de produção.'
+      steps {
+        input {
+          message 'Aprovado para produção?'
+          ok 'Sim. Iniciar pipeline de produção.'
+        }
       }
     }
   }

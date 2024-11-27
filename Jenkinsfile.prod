@@ -8,28 +8,43 @@ pipeline {
       }
     }
 
-    stage('Start container') {
+    stage('Sobe Containers da Aplicação') {
       steps {
-        echo 'Starting container from Docker Hub...'
+        echo 'Puxando imagem do Docker Hub...'
         bat 'docker-compose -f docker-compose.prod.yml pull' // Baixa a imagem do Docker Hub
+
+        echo 'Subindo container...'
         bat 'docker-compose -f docker-compose.prod.yml up -d --no-color'
+
+        echo 'Esperando inicialização da aplicação (60s)...'
         sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
-        bat 'docker-compose -f docker-compose.prod.yml logs' // Verifica os logs para conferir o status do Spring Boot
-        bat 'docker-compose -f docker-compose.prod.yml ps' // Verifica o status do container
+        
+        // bat 'docker-compose -f docker-compose.prod.yml logs' // Verifica os logs para conferir o status do Spring Boot
+        // bat 'docker-compose -f docker-compose.prod.yml ps' // Verifica o status do container
       }
     }
 
-    stage('Run tests against the container') {
+    stage('Verifica Aplicação em Execução') {
       steps {
-        bat 'curl http://localhost:8585 || echo "Service not responding"'
+        bat 'curl http://localhost:8585 || echo "Aplicação não está respondendo."'
+      }
+    }
+
+    stage('Aguardando Aprovação') {
+      input {
+        message 'Aprovado para produção?'
+        ok 'Sim. Iniciar pipeline de produção.'
       }
     }
   }
 
   post {
+    aborted {
+      echo 'Progresso abortado, rejeitado início da pipeline prod.'
+    }
+
     always {
-      echo 'Pipeline completed'
-      // Não derruba mais o container aqui
+      echo 'Pipeline finalizada.'
     }
   }
 }

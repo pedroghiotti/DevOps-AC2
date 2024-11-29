@@ -16,12 +16,12 @@ pipeline {
 				echo 'Subindo container...'
 				bat 'docker-compose -f docker-compose.homol.yml up -d --no-color'
 
-				echo 'Esperando inicialização da aplicacao (60s)...'
-				sleep time: 0, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
+				echo 'Esperando inicializacao da aplicacao (60s)...'
+				sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
 			}
 		}
 
-		stage('Verifica Aplicação em Execucao') {
+		stage('Verifica Aplicacao em Execucao') {
 			steps {
 				script {
 					def response = bat(script: 'curl http://localhost:8585', returnStatus: true)

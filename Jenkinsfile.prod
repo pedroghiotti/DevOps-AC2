@@ -16,7 +16,7 @@ pipeline {
         echo 'Subindo container...'
         bat 'docker-compose -f docker-compose.prod.yml up -d --no-color'
 
-        echo 'Esperando inicialização da aplicação (60s)...'
+        echo 'Esperando inicializacao da aplicacao (60s)...'
         sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
       }
     }

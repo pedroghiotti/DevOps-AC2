@@ -8,7 +8,7 @@ pipeline {
 			}
 		}
 
-		stage('Sobe Containers da Aplicação') {
+		stage('Sobe Containers da Aplicacao') {
 			steps {
 				echo 'Puxando imagem do Docker Hub...'
 				bat 'docker-compose -f docker-compose.homol.yml pull' // Baixa a imagem do Docker Hub
@@ -16,26 +16,27 @@ pipeline {
 				echo 'Subindo container...'
 				bat 'docker-compose -f docker-compose.homol.yml up -d --no-color'
 
-				echo 'Esperando inicialização da aplicação (60s)...'
-				sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
+				echo 'Esperando inicialização da aplicacao (60s)...'
+				sleep time: 0, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
 			}
 		}
 
-		stage('Verifica Aplicação em Execução') {
+		stage('Verifica Aplicação em Execucao') {
 			steps {
 				script {
 					def response = bat(script: 'curl http://localhost:8585', returnStatus: true)
 
 					if (response != 0) {
-						error 'Pipeline interrompida, aplicação irresponsiva.'
+						error 'Pipeline interrompida, aplicacao irresponsiva.'
 					}
 				}
+				echo 'Aplicacao em execucao na porta 8585.'
 			}
 		}
 
-		stage('Aguardando Aprovação') {
+		stage('Aguardando Aprovacao') {
 			steps {
-				input(message:'Aprovado para produção?', ok:'Sim. Iniciar pipeline de produção.')
+				input(message:'Aprovado para producao?', ok:'Sim. Iniciar pipeline de producao.')
 			}
 		}
 	}

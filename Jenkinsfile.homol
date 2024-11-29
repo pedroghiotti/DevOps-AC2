@@ -23,12 +23,12 @@ pipeline {
 
 		stage('Verifica Aplicação em Execução') {
 			steps {
-				try {
-					bat 'curl http://localhost:8585'
-				}
-				catch (err) {
-					echo 'Comunicação com aplicação falhou com erro:\n\t${err}'
-					error('Pipeline interrompida, aplicação irresponsiva.')
+				script {
+					def response = bat(script: 'curl http://localhost:8585', returnStatus: true)
+
+					if (response != 0) {
+						error 'Pipeline interrompida, aplicação irresponsiva.'
+					}
 				}
 			}
 		}

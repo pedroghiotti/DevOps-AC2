@@ -1,0 +1,52 @@
+pipeline {
+	agent any
+
+	stages {
+		stage('Checkout') {
+			steps {
+				checkout scm
+			}
+		}
+
+		stage('Sobe Containers da Aplicação') {
+			steps {
+				echo 'Puxando imagem do Docker Hub...'
+				bat 'docker-compose -f docker-compose.homol.yml pull' // Baixa a imagem do Docker Hub
+
+				echo 'Subindo container...'
+				bat 'docker-compose -f docker-compose.homol.yml up -d --no-color'
+
+				echo 'Esperando inicialização da aplicação (60s)...'
+				sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
+			}
+		}
+
+		stage('Verifica Aplicação em Execução') {
+			steps {
+				try {
+					bat 'curl http://localhost:8585'
+				}
+				catch (err) {
+					echo 'Comunicação com aplicação falhou com erro:\n\t${err}'
+					error('Pipeline interrompida, aplicação irresponsiva.')
+				}
+			}
+		}
+
+		stage('Aguardando Aprovação') {
+			steps {
+				input(message 'Aprovado para produção?', ok 'Sim. Iniciar pipeline de produção.')
+			}
+		}
+	}
+
+	post {
+		aborted {
+			echo 'Progresso abortado, rejeitado início da pipeline prod.'
+		}
+
+		always {
+			echo 'Pipeline finalizada.'
+		}
+	}
+}

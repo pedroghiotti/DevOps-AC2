@@ -18,35 +18,13 @@ pipeline {
 
         echo 'Esperando inicialização da aplicação (60s)...'
         sleep time: 60, unit: 'SECONDS' // Aumenta o tempo para o serviço Spring Boot iniciar
-        
-        // bat 'docker-compose -f docker-compose.prod.yml logs' // Verifica os logs para conferir o status do Spring Boot
-        // bat 'docker-compose -f docker-compose.prod.yml ps' // Verifica o status do container
-      }
-    }
-
-    stage('Verifica Aplicação em Execução') {
-      steps {
-        bat 'curl http://localhost:8585 || echo "Aplicação não está respondendo."'
-      }
-    }
-
-    stage('Aguardando Aprovação') {
-      steps {
-        input {
-          message 'Aprovado para produção?'
-          ok 'Sim. Iniciar pipeline de produção.'
-        }
       }
     }
   }
 
   post {
-    aborted {
-      echo 'Progresso abortado, rejeitado início da pipeline prod.'
-    }
-
     always {
-      echo 'Pipeline finalizada.'
+      echo 'Pipeline Prod finalizada, aplicação em execução na porta 8586.'
     }
   }
 }

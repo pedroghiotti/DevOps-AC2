@@ -91,7 +91,7 @@ public class StudentServiceTest {
             studentService.concludeCourse(student.getId(), courses.get(i).getId(), 7d);
         }
 
-        assertEquals(AccountType.PREMIUM, studentService.getStudentById(student.getId()).getAccountType(),
+        assertEquals(AccountType.STANDARD, studentService.getStudentById(student.getId()).getAccountType(),
                 "Com 11 cursos completos, conta não deve ter sido recompensada aprimorada para premium."); // Assertion
 
         studentService.concludeCourse(student.getId(), courses.get((courses.size() - 1)).getId(), 7d); // Action

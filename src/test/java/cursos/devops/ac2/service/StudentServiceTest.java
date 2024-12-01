@@ -33,22 +33,25 @@ public class StudentServiceTest {
             )
         );
 
-        Course course = courseService.createCourse(
-            new CourseDTO(
-                "0000",
-                "Curso de Tecnologia",
-                "Curso de tecnologia... autoexplicativo.",
-                100d
-            )
-        );
+        Course course_a = courseService.createCourse(new CourseDTO("0000", "Curso de Tecnologia 1", "Curso de tecnologia... autoexplicativo.", 100d));
+        Course course_b = courseService.createCourse(new CourseDTO("0001", "Curso de Tecnologia 2", "Curso de tecnologia... autoexplicativo.", 100d));
+        Course course_c = courseService.createCourse(new CourseDTO("0002", "Curso de Tecnologia 3", "Curso de tecnologia... autoexplicativo.", 100d));
 
-        studentService.acquireCourse(student.getId(), course.getId());
+        studentService.acquireCourse(student.getId(), course_a.getId());
+        studentService.acquireCourse(student.getId(), course_b.getId());
+        studentService.acquireCourse(student.getId(), course_c.getId());
 
-        // Action
-        studentService.concludeCourse(student.getId(), course.getId(), 7d);
+        studentService.concludeCourse(student.getId(), course_a.getId(), 6.99); // Action
+        assertEquals(0, studentService.getStudentById(student.getId()).getCoins(),
+                "Não deve recompensar nota menor que 7, mesmo que aproximada."); // Assertion
 
-        // Assertion
-        assertEquals(3, studentService.getStudentById(student.getId()).getCoins());
+        studentService.concludeCourse(student.getId(), course_b.getId(), 7d); // Action
+        assertEquals(3, studentService.getStudentById(student.getId()).getCoins(),
+                "Deve recompensar nota == 7."); // Assertion
+
+        studentService.concludeCourse(student.getId(), course_c.getId(), 10d); // Action
+        assertEquals(6, studentService.getStudentById(student.getId()).getCoins(),
+                "Deve recompensar nota > 7."); // Assertion
     }
 
     @Test
@@ -84,12 +87,17 @@ public class StudentServiceTest {
         });
 
         // Action
-        courses.forEach(course -> {
-            studentService.concludeCourse(student.getId(), course.getId(), 7d);
-        });
+        for(int i = 0; i < (courses.size() - 1); i++) {
+            studentService.concludeCourse(student.getId(), courses.get(i).getId(), 7d);
+        }
 
-        // Assertion
-        assertEquals(AccountType.PREMIUM, studentService.getStudentById(student.getId()).getAccountType());
+        assertEquals(AccountType.PREMIUM, studentService.getStudentById(student.getId()).getAccountType(),
+                "Com 11 cursos completos, conta não deve ter sido recompensada aprimorada para premium."); // Assertion
+
+        studentService.concludeCourse(student.getId(), courses.getLast().getId(), 7d); // Action
+
+        assertEquals(AccountType.PREMIUM, studentService.getStudentById(student.getId()).getAccountType(),
+                "Ao completar 12 curso, conta deve ser aprimorada para premium."); // Assertion
     }
 
     @Test
